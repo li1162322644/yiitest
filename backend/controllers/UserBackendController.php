@@ -74,6 +74,18 @@ class UserBackendController extends Controller
         }
     }
 
+    public function actionSignup()
+    {
+        $model = new \backend\models\SignupForm();
+        if ($model->load(Yii::$app->request->post()) && $model->signup()) {
+            // 添加完用户之后，我们跳回到index操作即列表页
+            return $this->redirect(['index']);
+        }
+        return $this->render('signup', [
+            'model' => $model,
+        ]);
+    }
+
     /**
      * Updates an existing UserBackend model.
      * If update is successful, the browser will be redirected to the 'view' page.
