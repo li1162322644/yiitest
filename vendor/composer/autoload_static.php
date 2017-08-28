@@ -27,6 +27,10 @@ class ComposerStaticInit0d1d3c13f80202964b8b82ff7f2fb863
         array (
             'rmrevin\\yii\\fontawesome\\' => 24,
         ),
+        'm' => 
+        array (
+            'mdm\\admin\\' => 10,
+        ),
         'd' => 
         array (
             'dmstr\\' => 6,
@@ -77,6 +81,10 @@ class ComposerStaticInit0d1d3c13f80202964b8b82ff7f2fb863
         'rmrevin\\yii\\fontawesome\\' => 
         array (
             0 => __DIR__ . '/..' . '/rmrevin/yii2-fontawesome',
+        ),
+        'mdm\\admin\\' => 
+        array (
+            0 => __DIR__ . '/..' . '/mdmsoft/yii2-admin',
         ),
         'dmstr\\' => 
         array (
