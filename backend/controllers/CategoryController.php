@@ -83,15 +83,14 @@ class CategoryController extends BaseController
      * @param integer $id
      * @return mixed
      */
-    public
-    function actionUpdate($id)
+    public function actionUpdate($id)
     {
         $model = $this->findModel($id);
-
+        $this->performModalAjaxValidation($model);
         if ($model->load(Yii::$app->request->post()) && $model->save()) {
             return $this->redirect(['view', 'id' => $model->id]);
         } else {
-            return $this->render('update', [
+            return $this->renderAjax('update', [
                 'model' => $model,
             ]);
         }
@@ -103,8 +102,7 @@ class CategoryController extends BaseController
      * @param integer $id
      * @return mixed
      */
-    public
-    function actionDelete($id)
+    public function actionDelete($id)
     {
         $this->findModel($id)->delete();
 
@@ -118,8 +116,7 @@ class CategoryController extends BaseController
      * @return Category the loaded model
      * @throws NotFoundHttpException if the model cannot be found
      */
-    protected
-    function findModel($id)
+    protected function findModel($id)
     {
         if (($model = Category::findOne($id)) !== null) {
             return $model;

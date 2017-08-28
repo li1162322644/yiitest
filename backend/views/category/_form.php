@@ -13,12 +13,8 @@ use yii\helpers\Url;
     <?php $form = ActiveForm::begin([
         'id' => 'form-id',
         'enableAjaxValidation' => true,
-//        'validationUrl' => Url::toRoute(['validate-form']),
     ]); ?>
 
-    <?= $form->field($model, 'name')->textInput(['maxlength' => true]) ?>
-    <?= $form->field($model, 'name')->textInput(['maxlength' => true]) ?>
-    <?= $form->field($model, 'name')->textInput(['maxlength' => true]) ?>
     <?= $form->field($model, 'name')->textInput(['maxlength' => true]) ?>
 
     <div class="form-group">
