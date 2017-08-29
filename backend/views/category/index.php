@@ -2,6 +2,7 @@
 
 use yii\helpers\Html;
 use yii\grid\GridView;
+use mdm\admin\components\Helper;
 
 /* @var $this yii\web\View */
 /* @var $searchModel backend\models\CategorySearch */
@@ -16,18 +17,15 @@ $this->params['breadcrumbs'][] = $this->title;
     <!--    --><?php // echo $this->render('_search', ['model' => $searchModel]); ?>
 
     <p>
-        <?=
-        Html::a('创建栏目', ['create'], [
-            'class' => 'btn btn-success',
-            'id' => 'create', // 按钮的id随意
-            'data-toggle' => 'modal', // 固定写法
-            'data-target' => '#operate-modal', // 等于modal begin中设定的参数id值
-        ])
-        ?>
+        <?php
+        if(Helper::checkRoute('create')) {
+            echo Html::a('创建栏目', ['create'], ['class' => 'btn btn-success', 'id' => 'create', 'data-toggle' => 'modal', 'data-target' => '#operate-modal',]);
+        } ?>
     </p>
     <?= GridView::widget([
+
         'dataProvider' => $dataProvider,
-//        'filterModel' => $searchModel,
+        'filterModel' => $searchModel,
         'columns' => [
             ['class' => 'yii\grid\SerialColumn'],
 
@@ -37,7 +35,7 @@ $this->params['breadcrumbs'][] = $this->title;
 //            ['class' => 'yii\grid\ActionColumn'],
             [
                 'class' => 'yii\grid\ActionColumn',
-                'template' => '{update}  {delete}',
+                'template' => Helper::filterActionColumn('{update}  {delete}'),
                 'header' => '操作',
                 'buttons' => [
                     'update' => function ($url, $model, $key) {
