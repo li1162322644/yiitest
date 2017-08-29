@@ -11,6 +11,7 @@ return [
     'basePath' => dirname(__DIR__),
     'controllerNamespace' => 'backend\controllers',
     'bootstrap' => ['log'],
+    //admin组件
     'modules' => [
         'admin' => [
             'class' => 'mdm\admin\Module',
@@ -25,7 +26,7 @@ return [
             //这里是允许访问的action，不受权限控制 controller/action
             'site/*'
         ]
-    ],
+    ],//admin组件
     'components' => [
         'request' => [
             'csrfParam' => '_csrf-backend',
@@ -72,6 +73,18 @@ return [
             "class" => 'yii\rbac\DbManager',
             "defaultRoles" => ["guest"],
         ],
+        //主题或者可以通过行为的方法动态配置主题
+        /*'view' => [
+            'theme' => [
+                // 'basePath' => '@app/themes/spring',
+                // 'baseUrl' => '@web/themes/spring',
+                'pathMap' => [
+                    '@app/views' => [
+                        '@app/themes',
+                    ]
+                ],
+            ],
+        ],*/
     ],
     'params' => $params,
 ];

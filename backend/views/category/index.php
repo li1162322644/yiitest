@@ -93,6 +93,7 @@ $js = <<<JS
 // 创建操作
 $('#create').on('click', function () {
     $('.modal-title').html('创建栏目');
+     $('.modal-body').html('加载中...');
     $.get('{$requestCreateUrl}',
         function (data) {    
             // 弹窗的主题渲染页面
@@ -109,6 +110,7 @@ $js = <<<JS
  //更新操作 
  $('.btn-update').on('click', function () { 
      $('.modal-title').html('栏目信息');
+     $('.modal-body').html('加载中...');
      $.get('{$requestUpdateUrl}', { id: $(this).closest('tr').data('key') }, function (data) {
          $('.modal-body').html(data); 
      } );
