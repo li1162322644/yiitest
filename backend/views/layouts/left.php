@@ -1,7 +1,8 @@
 <?php
 
 use mdm\admin\components\MenuHelper;
-use dmstr\widgets\Menu;
+//use dmstr\widgets\Menu;
+use backend\components\Menu;
 
 $callback = function ($menu) {
     $data = json_decode($menu['data'], true);

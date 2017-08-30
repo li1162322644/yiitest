@@ -26,6 +26,7 @@ $this->params['breadcrumbs'][] = $this->title;
 
         'dataProvider' => $dataProvider,
         'filterModel' => $searchModel,
+        'summary' => false,//去掉页头的摘要
         'columns' => [
             ['class' => 'yii\grid\SerialColumn'],
 
