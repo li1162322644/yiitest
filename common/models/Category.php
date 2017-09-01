@@ -1,8 +1,9 @@
 <?php
 
-namespace backend\models;
+namespace common\models;
 
 use Yii;
+use yii\helpers\ArrayHelper;
 
 /**
  * This is the model class for table "category".
@@ -46,5 +47,12 @@ class Category extends \yii\db\ActiveRecord
             'id' => '栏目ID',
             'name' => '栏目名',
         ];
+    }
+
+    public static function dropDownList()
+    {
+        $query = static::find();
+        $enums = $query->all();
+        return $enums ? ArrayHelper::map($enums, 'id', 'name') : [];
     }
 }

@@ -2,18 +2,18 @@
 
 namespace backend\controllers;
 
-use common\base\BaseController;
+use common\models\BlogCategory;
 use Yii;
-use common\models\Category;
-use common\models\CategorySearch;
-use yii\base\Model;
+use common\models\Blog;
+use common\models\BlogSearch;
+use yii\web\Controller;
 use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
 
 /**
- * CategoryController implements the CRUD actions for Category model.
+ * BlogController implements the CRUD actions for Blog model.
  */
-class CategoryController extends BaseController
+class BlogController extends Controller
 {
     /**
      * @inheritdoc
@@ -31,12 +31,12 @@ class CategoryController extends BaseController
     }
 
     /**
-     * Lists all Category models.
+     * Lists all Blog models.
      * @return mixed
      */
     public function actionIndex()
     {
-        $searchModel = new CategorySearch();
+        $searchModel = new BlogSearch();
         $dataProvider = $searchModel->search(Yii::$app->request->queryParams);
 
         return $this->render('index', [
@@ -46,7 +46,7 @@ class CategoryController extends BaseController
     }
 
     /**
-     * Displays a single Category model.
+     * Displays a single Blog model.
      * @param integer $id
      * @return mixed
      */
@@ -58,27 +58,37 @@ class CategoryController extends BaseController
     }
 
     /**
-     * Creates a new Category model.
+     * Creates a new Blog model.
      * If creation is successful, the browser will be redirected to the 'view' page.
      * @return mixed
      */
     public function actionCreate()
     {
-        $model = new Category();
-        $this->performModalAjaxValidation($model);
+        $model = new Blog();
 
-        if ($model->load(Yii::$app->request->post()) && $model->save()) {
-            return $this->redirect(['view', 'id' => $model->id]);
-        } else {
-            return $this->renderAjax('create', [
-                'model' => $model,
-            ]);
+        if ($model->load(Yii::$app->request->post()) && $model->validate()) {
+            $transaction = Yii::$app->db->beginTransaction();
+            try {
+                $model->save(false);
+
+
+                $transaction->commit();
+                return $this->redirect(['index']);
+            } catch (\ErrorException $e) {
+                //回滚
+                $transaction->rollback();
+                throw $e;
+            }
         }
+
+        return $this->render('create', [
+            'model' => $model,
+        ]);
+
     }
 
-
     /**
-     * Updates an existing Category model.
+     * Updates an existing Blog model.
      * If update is successful, the browser will be redirected to the 'view' page.
      * @param integer $id
      * @return mixed
@@ -86,18 +96,23 @@ class CategoryController extends BaseController
     public function actionUpdate($id)
     {
         $model = $this->findModel($id);
-        $this->performModalAjaxValidation($model);
-        if ($model->load(Yii::$app->request->post()) && $model->save()) {
-            return $this->redirect(['view', 'id' => $model->id]);
-        } else {
-            return $this->renderAjax('update', [
-                'model' => $model,
-            ]);
+
+        if ($model->load(Yii::$app->request->post()) && $model->validate()) {
+            $model->save(false);
+
+            $blogId = $model->id;
+            BlogCategory::insertBlogCategory($blogId, $model->category);
+            return $this->redirect(['index']);
         }
+        $model->category = BlogCategory::getRelationCategory($id);
+        return $this->render('update', [
+            'model' => $model,
+        ]);
+
     }
 
     /**
-     * Deletes an existing Category model.
+     * Deletes an existing Blog model.
      * If deletion is successful, the browser will be redirected to the 'index' page.
      * @param integer $id
      * @return mixed
@@ -110,15 +125,15 @@ class CategoryController extends BaseController
     }
 
     /**
-     * Finds the Category model based on its primary key value.
+     * Finds the Blog model based on its primary key value.
      * If the model is not found, a 404 HTTP exception will be thrown.
      * @param integer $id
-     * @return Category the loaded model
+     * @return Blog the loaded model
      * @throws NotFoundHttpException if the model cannot be found
      */
     protected function findModel($id)
     {
-        if (($model = Category::findOne($id)) !== null) {
+        if (($model = Blog::findOne($id)) !== null) {
             return $model;
         } else {
             throw new NotFoundHttpException('The requested page does not exist.');

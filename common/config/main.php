@@ -13,7 +13,7 @@ return [
             'charset' => 'utf8',
             'enableSchemaCache' => true,
             'schemaCacheDuration' => 24 * 3600,
-            'schemaCache' => 'cache',
+            'schemaCache' => 'cache',//表字段缓存
         ],
 
     ],
