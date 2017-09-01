@@ -17,7 +17,7 @@ class BaseController extends Controller
 {
     /**
      * 通用的modal ajax表单验证
-     * @param array $model
+     * @param  $model
      * @return void
      */
     public function performModalAjaxValidation($model)
@@ -31,7 +31,7 @@ class BaseController extends Controller
     }
     /**
      * 通用的ajax表单验证
-     * @param array $model
+     * @param $model
      * @return void
      */
     public function performAjaxValidation($model)
